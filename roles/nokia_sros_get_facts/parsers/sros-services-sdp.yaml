@@ -1,0 +1,13 @@
+---
+- example: "6          8:6                Mesh   10.0.0.8             Up    131054  131062"
+  getval: '(?P<service_id>\S+)\s+(?P<service_spd_id>\S+)\s+(?P<type>\S+)\s+(?P<far_end>\S+)\s+(?P<opr_state>Up|Down)\s+(?P<i_label>\S+)\s+(?P<e_label>\S+)'
+  result:
+    "{{ service_id }}":
+      service_id: "{{ service_id }}"
+      service_spd_id: "{{ service_spd_id }}"
+      type: "{{ type }}"
+      far_end: "{{ far_end }}"
+      opr_state: "{{ opr_state }}"
+      i_label: "{{ i_label }}"
+      e_label: "{{ e_label }}"
+  shared: true

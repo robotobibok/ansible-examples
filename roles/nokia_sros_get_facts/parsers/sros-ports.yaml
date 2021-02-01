@@ -1,0 +1,25 @@
+---
+- example: "1/1/1       Up    Yes  Up      9212 9212    - netw null xcme    MDI GIGE-T "
+  getval: '(?P<port_id>[0-9]\S+)\s+(?P<adm_state>\S+)\s+(?P<link>Yes|No)\s+(?P<port_state>\S+)\s+(?P<cfg_mtu>\S+)\s+(?P<oper_mtu>\S+)\s+(?P<lag>\S+)\s+(?P<port_mode>\S+)\s+(?P<port_encpu>\S+)\s+(?P<port_type>\S+)\s+'
+  result:
+    "{{ port_id }}":
+      port_id: "{{ port_id }}"
+      adm_state: "{{ adm_state }}"
+      link: "{{ link }}"
+      port_state: "{{ port_state }}"
+      cfg_mtu: "{{ cfg_mtu }}"
+      oper_mtu: "{{ oper_mtu }}"
+      lag: "{{ lag }}"
+      port_mode: "{{ port_mode }}"      
+      port_encpu: "{{ port_encpu }}"
+      port_type: "{{ port_type }}"       
+  shared: true
+
+
+- example: "1/1/1       Up    Yes  Up      9212 9212    - netw null xcme    MDI GIGE-T "
+  getval: '(?P<port_id>\S.\d+.\d+)\s+(?P<port_desc>\w+[^"]+)'
+  result:
+    "{{ port_id }}":
+      port_id: "{{ port_id }}"
+      port_desc: "{{ port_desc }}"    
+  shared: true

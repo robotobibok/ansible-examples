@@ -1,0 +1,13 @@
+---
+- example: "ge-1/1/1                         Up          Up/Down     Network 1/1/1 10.2.21.2/24                                                  n/a"
+  getval: '(?P<interface_name>\S+)\s+(?P<adm>Up|Down)\s+(?P<opr>\S+)\s+(?P<mode>\S+)\s+(?P<sap_id>\S+)'
+  result:
+    "{{ interface_name }}":
+      interface_name: "{{ interface_name }}"
+      adm: "{{ adm }}"
+      opr: "{{ opr }}"
+      mode: "{{ mode }}"
+      sap_id: "{{ sap_id }}"
+#      ipaddr: "{{ ipaddr }}"
+#      pxfstate: "{{ pxfstate }}"
+  shared: true3

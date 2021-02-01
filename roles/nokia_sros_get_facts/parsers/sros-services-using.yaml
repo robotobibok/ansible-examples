@@ -1,0 +1,12 @@
+---
+- example: "6            VPLS      Up   Up   1          TEST-E-LAN-1"
+  getval: '(?P<service_id>\S+)\s+(?P<service_type>\S+)\s+(?P<service_adm>Up|Down)\s+(?P<service_opr>Up|Down)\s+(?P<customer_id>\S+)\s+(?P<service_name>\S+)'
+  result:
+    "{{ service_id }}":
+      service_id: "{{ service_id }}"
+      service_type: "{{ service_type }}"
+      service_adm: "{{ service_adm }}"
+      service_opr: "{{ service_opr }}"
+      customer_id: "{{ customer_id }}"
+      service_name: "{{ service_name }}"
+  shared: true

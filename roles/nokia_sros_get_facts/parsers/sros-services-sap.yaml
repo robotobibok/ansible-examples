@@ -1,0 +1,13 @@
+---
+- example: "1/1/8:888                       6          1     none    none   Up   Down"
+  getval: '(?P<port_id>\S+)\s+(?P<service_id>\S+)\s+(?P<sap_qos>\S+)\s+(?P<sap_ing>\S+)\s+(?P<sap_egr>\S+)\s+(?P<sap_adm>Up|Down)\s+(?P<sap_opr>Up|Down)'
+  result:
+    "{{ port_id }}":
+      port_id: "{{ port_id }}"
+      service_id: "{{ service_id }}"
+      sap_qos: "{{ sap_qos }}"
+      sap_ing: "{{ sap_ing }}"
+      sap_egr: "{{ sap_egr }}"
+      sap_adm: "{{ sap_adm }}"
+      sap_opr: "{{ sap_opr }}"
+  shared: true

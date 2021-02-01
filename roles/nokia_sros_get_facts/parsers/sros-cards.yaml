@@ -1,0 +1,10 @@
+---
+- example: "1         iom-sas                                  up    up            "
+  getval: '(?P<slot>[A-Z|0-9])\s+(?P<prov_state>\S+)\s+(?P<adm_state>\S+)\s+(?P<oper_state>\S+)'
+  result:
+    "{{ slot }}":
+      slot: "{{ slot }}"
+      prov_state: "{{ prov_state }}"
+      adm_state: "{{ adm_state }}"
+      oper_state: "{{ oper_state }}"
+  shared: true

@@ -1,0 +1,114 @@
+---
+- name: Get chassis info
+  cli_command:
+    command: show chassis | match Type
+  register: info_chassis
+
+- name: Get system info
+  cli_command:
+    command: show system information | match "System Version"
+  register: info_system  
+
+- name: Extract chassis info
+  set_fact:
+    chassis_fact: "{{ info_chassis.stdout | regex_search('(?<=: )(.*)$','\\1') }}"
+    system_fact: "{{ info_system.stdout | regex_search('(?<=: )(.*)$','\\1') }}"
+    cacheable: yes
+
+- name: Get card info
+  cli_command:
+    command: show card
+  register: info_card
+
+- name: Parse card info
+  ansible.netcommon.cli_parse:
+    text: "{{ info_card.stdout }}"
+    parser:
+      name: ansible.netcommon.native
+      template_path: "{{ playbook_dir }}/roles/nokia_sros_get_facts/parsers/sros-cards.yaml"
+    set_fact: cards_fact   
+
+- name: Get port info
+  cli_command:
+    command: show port
+  register: info_port
+
+- name: Get port description
+  cli_command:
+    command: show port description
+  register: info_port_desc
+
+- name: Parse port info
+  ansible.netcommon.cli_parse:
+    text: "{{ info_port.stdout }} {{ info_port_desc.stdout }}"
+    parser:
+      name: ansible.netcommon.native
+      template_path: "{{ playbook_dir }}/roles/nokia_sros_get_facts/parsers/sros-ports.yaml"
+    set_fact: ports_with_desc_fact
+
+- name: Get service-using
+  cli_command:
+    command: show service service-using
+  register: info_service_using
+
+- name: Parse service-using info
+  ansible.netcommon.cli_parse:
+    text: "{{ info_service_using.stdout }}"
+    parser:
+      name: ansible.netcommon.native
+      template_path: "{{ playbook_dir }}/roles/nokia_sros_get_facts/parsers/sros-services-using.yaml"
+    set_fact: services_using_fact
+
+- name: Get sap-using
+  cli_command:
+    command: show service sap-using
+  register: info_service_sap_using
+
+- name: Parse sap-using info
+  ansible.netcommon.cli_parse:
+    text: "{{ info_service_sap_using.stdout }}"
+    parser:
+      name: ansible.netcommon.native
+      template_path: "{{ playbook_dir }}/roles/nokia_sros_get_facts/parsers/sros-services-sap.yaml"
+    set_fact: sap_using_fact
+
+- name: Get sdp-using description
+  cli_command:
+    command: show service sdp-using
+  register: info_service_sdp_using
+
+- name: Parse sdp-using info
+  ansible.netcommon.cli_parse:
+    text: "{{ info_service_sdp_using.stdout }}"
+    parser:
+      name: ansible.netcommon.native
+      template_path: "{{ playbook_dir }}/roles/nokia_sros_get_facts/parsers/sros-services-sdp.yaml"
+    set_fact: services_sdp_fact
+
+- name: Get router isis description
+  cli_command:
+    command: show router isis adjacency
+  register: info_router_isis
+  ignore_errors: true
+
+- name: Parse router isis info
+  ansible.netcommon.cli_parse:
+    text: "{{ info_router_isis.stdout }}"
+    parser:
+      name: ansible.netcommon.native
+      template_path: "{{ playbook_dir }}/roles/nokia_sros_get_facts/parsers/sros-router-isis.yaml"
+    set_fact: router_isis_fact
+  ignore_errors: true
+
+- name: Get router interface description
+  cli_command:
+    command: show router interface exclude-services
+  register: info_router_interface
+
+- name: Parse router interface info
+  ansible.netcommon.cli_parse:
+    text: "{{ info_router_interface.stdout }}"
+    parser:
+      name: ansible.netcommon.native
+      template_path: "{{ playbook_dir }}/roles/nokia_sros_get_facts/parsers/sros-router-interface.yaml"
+    set_fact: router_interface_fact 

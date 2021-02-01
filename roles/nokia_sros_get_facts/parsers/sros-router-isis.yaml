@@ -1,0 +1,12 @@
+---
+- example: "7750SR7-LAB              L2    Up    27   tenge-1/1/26                  0"
+  getval: '(?P<router_system_id>\S+)\s+(?P<usage>\S+)\s+(?P<state>Up|Down)\s+(?P<hold>\S+)\s+(?P<interface>\S+)\s+(?P<mtid>\S+)'
+  result:
+    "{{ router_system_id }}":
+      router_system_id: "{{ router_system_id }}"
+      usage: "{{ usage }}"
+      state: "{{ state }}"
+      hold: "{{ hold }}"
+      interface: "{{ interface }}"
+      mtid: "{{ mtid }}"
+  shared: true
